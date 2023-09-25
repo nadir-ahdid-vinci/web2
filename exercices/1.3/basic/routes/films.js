@@ -46,18 +46,23 @@ router.get('/', function (req,res){
   return res.json(newFilm ?? films);
 });
 
-router.post('/', function (req, res){
-  const budgets = req?.body?.budget > 0 ? req.body.budget : undefined;
-  const durations = req?.body?.duration > 0 ? req.body.duration : undefined;
+router.post('/', (req, res) => {
+  const title = req?.body?.title?.length !== 0 ? req.body.title : undefined;
+  const link = req?.body?.content?.length !== 0 ? req.body.link : undefined;
+  const duration = typeof req?.body?.duration !== 'number' || req.body.duration < 0 ? undefined : req.body.duration;
+  const budget = typeof req?.body?.budget !== 'number' || req.body.budget < 0 ? undefined : req.body.budget;
 
-  let addFilm = [
-    title = req.body.title,
-    duration = req.body.duration,
-    budget = req.body.budget,
-    link = req.body.link
-  ];
-  films.push(addFilm);
-  
+  if (!title || !link || !duration || !budget) return res.json('Bad request');
+
+  const lastItemIndex = films?.length !== 0 ? films.length - 1 : undefined;
+  const lastId = lastItemIndex !== undefined ? films[lastItemIndex]?.id : 0;
+  const nextId = lastId + 1;
+
+  const newFilm = { id: nextId, title, link, duration, budget };
+
+  films.push(newFilm);
+
+  return res.json(newFilm);
 });
 
 module.exports = router;

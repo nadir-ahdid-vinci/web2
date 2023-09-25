@@ -5,15 +5,17 @@ Content-Type: application/json
 
 {
     "title" : "henry la plus belle",
-    "duration" : "166",
-    "budget" : "555",
+    "duration" : 166,
+    "budget" : 555,
     "link" : "hahahaahahahahahahahahahahahahhahahahahahahaah"
 }
 
 ### Get all
 GET {{baseUrl}}/films
 
+### Get by id
+GET {{baseUrl}}/films/6
 
 ### GET minimum duration
-GET {{baseUrl}}/films?minimum-duration=0
+GET {{baseUrl}}/films?minimum-duration=1
 
