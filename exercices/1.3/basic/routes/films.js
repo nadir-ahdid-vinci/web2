@@ -25,9 +25,39 @@ const films = [
   },
 ];
 
-// Read all the films
-router.get('/', function (req, res) {
-  return res.json(films);
+router.get('/:id', function (req,res){
+  const indexOfFilm = films.findIndex((films) => films.id == req.params.id);
+  if(indexOfFilm < 0) return res.sendStatus(404);
+  res.json(films[indexOfFilm]); 
+});
+
+router.get('/', function (req,res){
+  const newFilm = [];
+  const minimum = req?.query['minimum-duration'] ?? undefined;
+  if(minimum){
+    for (const film of films) {
+      console.log(film.duration);
+      if (film.duration >= req.query['minimum-duration']){
+        newFilm.push(film);
+      }
+    }
+    console.log(newFilm);
+  }
+  return res.json(newFilm ?? films);
+});
+
+router.post('/', function (req, res){
+  const budgets = req?.body?.budget > 0 ? req.body.budget : undefined;
+  const durations = req?.body?.duration > 0 ? req.body.duration : undefined;
+
+  let addFilm = [
+    title = req.body.title,
+    duration = req.body.duration,
+    budget = req.body.budget,
+    link = req.body.link
+  ];
+  films.push(addFilm);
+  
 });
 
 module.exports = router;
